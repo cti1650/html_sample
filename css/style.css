@@ -14,12 +14,18 @@ html,body {
 
 body{
     font-size:2rem;
+    max-width:800px;
     margin: 0 auto;
     display: grid;
     grid-template:
-        "header header header" 100px
-        "center center center" 1fr
-        "footer footer footer" 50px;
+        "... ...... ..." 0px
+        "... header ..."
+        "... ...... ..." 0px
+        "... center ..." 1fr
+        "... ...... ..." 0px
+        "... footer ..."
+        "... ...... ..." 0px
+        / 0px 1fr 0px;
 }
 header {
     grid-area: header;
@@ -29,4 +35,12 @@ main {
 }
 footer {
     grid-area: footer;
+}
+@media screen and (max-width: 1000px){
+    body {
+        grid-template:
+            "header"
+            "center" 1fr
+            "footer";
+    }
 }
