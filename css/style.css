@@ -1,0 +1,32 @@
+* {
+	margin:0;
+	padding:0;
+}
+
+html {
+	overflow-y:scroll;
+}
+
+html,body {
+    width:100%;
+    height:100%;
+}
+
+body{
+    font-size:2rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template:
+        "header header header" 100px
+        "center center center" 1fr
+        "footer footer footer" 50px;
+}
+header {
+    grid-area: header;
+}
+main {
+    grid-area: center;
+}
+footer {
+    grid-area: footer;
+}
