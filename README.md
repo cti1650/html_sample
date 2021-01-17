@@ -20,13 +20,13 @@ git clone https://github.com/cti1650/html_sample.git
 
 3. 新しいリポジトリをミラープッシュします。(--mirror 以降は複製先のリポジトリを指定)  
    ```bash
-   cd html_sample.git  
+   cd html_sample.git
    git push --mirror https://github.com/exampleuser/new-repository.git
    ```
 
 4. 先ほど作成した一時ローカルリポジトリを削除します。  
    ```bash
-   cd ..   
+   cd ..
    rm -rf html_sample.git
    ```
 
