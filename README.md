@@ -9,7 +9,7 @@ html でシングルページサイトを作成する際のテンプレート
 git clone https://github.com/cti1650/html_sample.git
 ```
 
-## リポジトリをミラーする
+## リポジトリを複製する
 
 1. Git Bash を開いてください。
 
