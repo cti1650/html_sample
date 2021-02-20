@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="A4_temp" content="index" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <title>A4_temp</title>
+    <style>
+      /* A4縦用のベース設定 */
+      @page {
+        size: A4 portrait; /* 横の場合はlandscape */
+        margin: 0mm;
+      }
+
+      /* 各要素の余白リセット */
+      * {
+        margin: 0mm;
+        padding: 0mm;
+      }
+
+      /* 印刷時の調子を整える */
+      body {
+        width: 210mm; /* 用紙の横幅を改めて指定 Chrome用 */
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        line-height: 1.5em;
+      }
+
+      /* 印刷1ページ用のコンテンツはここで定義 */
+      .page {
+        width: 210mm; /* 用紙の横幅を改めて指定 */
+        height: 296.5mm; /* 高さには0.5mm余裕をもたせる */
+        page-break-after: always;
+
+        box-sizing: border-box;
+        padding: 20mm 25mm; /* 用紙の余白 */
+        font-size: 11pt;
+      }
+      /* プレビュー用のスタイル */
+      @media screen {
+        body {
+          background: #eee;
+        }
+        .page {
+          background: white; /* 背景を白く */
+          box-shadow: 0 0.5mm 2mm rgba(0, 0, 0, 0.3); /* ドロップシャドウ */
+          margin: 5mm;
+        }
+      }
+
+      .txt__right {
+        text-align: right;
+      }
+      .txt__center {
+        text-align: center;
+      }
+      .txt_underline {
+        text-decoration: underline;
+      }
+
+      .name {
+        font-size: 12pt;
+      }
+      .caption {
+        font-size: 9pt;
+      }
+      .bank {
+        margin-bottom: 1em;
+      }
+
+      h1 {
+        margin: 1em 0;
+        font-size: 16pt;
+        letter-spacing: 0.2em;
+      }
+
+      .price {
+        display: flex;
+        border: solid 0.5pt #000;
+        font-size: 14pt;
+        max-width: 60%;
+        margin: 1em 0 2em;
+      }
+      .price dt,
+      .price dd {
+        padding: 1em;
+      }
+      .price dt {
+        border-right: solid 0.5pt #000;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: solid 0.5pt #000;
+        padding: 0.1em;
+      }
+      thead,
+      tfoot th {
+        background: #ccc;
+      }
+
+      tfoot td:empty {
+        border: none;
+      }
+      input[type="text"].txt_underline {
+        width: auto;
+        font-size: x-large;
+        padding: 0px;
+        border: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="page">
+      <p class="caption txt__right">2021年2月14日</p>
+      <p class="text-lg p-0 text-left">
+        <input
+          type="text"
+          class="text-lg border-white border-0 underline w-full"
+          value="Example 御中"
+        />
+      </p>
+      <p class="text-lg p-0 text-right">
+        <input
+          type="text"
+          class="text-lg text-right border-white border-0 w-full"
+          value="Example Example"
+        />
+      </p>
+      <p class="text-sm text-right h-24">
+        <textarea
+          class="text-sm text-right border-white border-0 w-full h-full"
+        >
+        東京都○○区○○1-2-3
+        ○○　○○
+        00-0000-0000
+    </textarea
+        >
+      </p>
+
+      <p class="txt__center">
+        <input
+          type="text"
+          class="text-xl text-center py-1 tracking-widest border-white border-0 w-full"
+          value="御請求書"
+        />
+      </p>
+      <p>なんとかにつき下記のとおりご請求申し上げます。</p>
+
+      <dl class="price">
+        <dt>ご請求金額</dt>
+        <dd>10,000 円</dd>
+      </dl>
+
+      <table>
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th>品名</th>
+            <th>数量</th>
+            <th>単価</th>
+            <th>合計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th width="30">1</th>
+            <td></td>
+            <td width="50"></td>
+            <td width="100"></td>
+            <td width="150"></td>
+          </tr>
+          <tr>
+            <th>2</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>3</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>4</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>5</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>6</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>7</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>8</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>9</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3"></td>
+            <th>小計</th>
+            <td>10,000円</td>
+          </tr>
+          <tr>
+            <td colspan="3"></td>
+            <th>消費税</th>
+            <td>10,000円</td>
+          </tr>
+          <tr>
+            <td colspan="3"></td>
+            <th>合計</th>
+            <td>10,000円</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p class="bank">
+        銀行名： ○○銀行　○○支店<br />
+        口座番号： 普通　0000000<br />
+        口座名義： ○○○○
+      </p>
+      <p>以上、よろしくお願いいたします。</p>
+    </section>
+  </body>
+</html>
