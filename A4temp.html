@@ -54,76 +54,26 @@
           margin: 5mm;
         }
       }
-
-      .txt__right {
-        text-align: right;
-      }
-      .txt__center {
-        text-align: center;
-      }
-      .txt_underline {
-        text-decoration: underline;
-      }
-
-      .name {
-        font-size: 12pt;
-      }
-      .caption {
-        font-size: 9pt;
-      }
-      .bank {
-        margin-bottom: 1em;
-      }
-
-      h1 {
-        margin: 1em 0;
-        font-size: 16pt;
-        letter-spacing: 0.2em;
-      }
-
-      .price {
-        display: flex;
-        border: solid 0.5pt #000;
-        font-size: 14pt;
-        max-width: 60%;
-        margin: 1em 0 2em;
-      }
-      .price dt,
-      .price dd {
-        padding: 1em;
-      }
-      .price dt {
-        border-right: solid 0.5pt #000;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: solid 0.5pt #000;
-        padding: 0.1em;
-      }
-      thead,
-      tfoot th {
-        background: #ccc;
-      }
-
-      tfoot td:empty {
-        border: none;
-      }
-      input[type="text"].txt_underline {
-        width: auto;
-        font-size: x-large;
-        padding: 0px;
-        border: #fff;
-      }
     </style>
+    <script>
+      function today() {
+        let utc = new Date();
+        //現在時刻とUTCの時差を求める。ハワイなら600分 * 60秒 * 1000ミリ秒
+        let offset = utc.getTimezoneOffset() * 60 * 1000; //ローカルタイムとして協定時を出すために時差分調整
+
+        utc = new Date(utc.getTime() + offset);
+        //日本時間に調整(UTC+9)
+        let timeJP = new Date(utc.getTime() + 9 * 60 * 60 * 1000);
+        let jpYear = timeJP.getFullYear();
+        let jpMonth = timeJP.getMonth() + 1;
+        let jpDate = timeJP.getDate();
+        return jpYear + "年" + jpMonth + "月" + jpDate + "日";
+      }
+    </script>
   </head>
   <body>
     <section class="page">
-      <p class="caption text-right">2021年2月14日</p>
+      <p id="today" class="text-sm text-right"></p>
       <p class="text-sm p-0 text-left">
         <input
           type="text"
@@ -157,7 +107,7 @@
         >
       </p>
 
-      <p class="txt__center my-6 h-auto">
+      <p class="text-center my-6 h-auto">
         <input
           type="text"
           class="text-xl text-center py-1 tracking-widest border-white border-0 w-full"
@@ -262,13 +212,14 @@
     </section>
     <script type="text/javascript">
       (() => {
+        document.querySelector("p#today").innerHTML = today();
         // ==============================================
         //	フォーカス時の背景色リセット
         // ==============================================
         // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
-        var s = document.querySelectorAll("textarea");
-        var arr = Array.from(s);
-        var item = [];
+        let s = document.querySelectorAll("textarea");
+        let arr = Array.from(s);
+        let item = [];
         arr.forEach(function (item) {
           item.addEventListener("blur", (e) => {
             let ele = e.currentTarget;
