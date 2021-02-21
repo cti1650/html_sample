@@ -2,13 +2,13 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="A4_temp" content="index" />
+    <meta name="CoverLetter" content="index" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <title>A4_temp</title>
+    <title>CoverLetter</title>
     <style>
       /* A4縦用のベース設定 */
       @page {
@@ -57,17 +57,17 @@
     </style>
     <script>
       function today() {
-        let utc = new Date();
+        let utc = new Date()
         //現在時刻とUTCの時差を求める。ハワイなら600分 * 60秒 * 1000ミリ秒
-        let offset = utc.getTimezoneOffset() * 60 * 1000; //ローカルタイムとして協定時を出すために時差分調整
+        let offset = utc.getTimezoneOffset() * 60 * 1000 //ローカルタイムとして協定時を出すために時差分調整
 
-        utc = new Date(utc.getTime() + offset);
+        utc = new Date(utc.getTime() + offset)
         //日本時間に調整(UTC+9)
-        let timeJP = new Date(utc.getTime() + 9 * 60 * 60 * 1000);
-        let jpYear = timeJP.getFullYear();
-        let jpMonth = timeJP.getMonth() + 1;
-        let jpDate = timeJP.getDate();
-        return jpYear + "年" + jpMonth + "月" + jpDate + "日";
+        let timeJP = new Date(utc.getTime() + 9 * 60 * 60 * 1000)
+        let jpYear = timeJP.getFullYear()
+        let jpMonth = timeJP.getMonth() + 1
+        let jpDate = timeJP.getDate()
+        return jpYear + "年" + jpMonth + "月" + jpDate + "日"
       }
     </script>
   </head>
@@ -84,13 +84,15 @@
       <p class="text-sm p-0 text-left">
         <input
           type="text"
-          class="text-lg border-white border-0 underline w-full"
+          class="syncdata text-lg border-white border-0 underline w-full"
+          id="to_Name"
           value="Example 御中"
         />
       </p>
       <p class="text-sm text-left h-auto">
         <textarea
-          class="text-sm text-left break-words border-white border-0 w-full h-full"
+          class="syncdata text-sm text-left break-words border-white border-0 w-full h-full"
+          id="to_Address"
         >
 東京都○○区○○1-2-3
 ○○　○○
@@ -100,13 +102,15 @@
       <p class="text-lg p-0 text-right">
         <input
           type="text"
-          class="text-lg text-right border-white border-0 w-full"
+          class="syncdata text-lg text-right border-white border-0 w-full"
+          id="from_Name"
           value="Example Example"
         />
       </p>
       <p class="text-sm text-right h-auto">
         <textarea
-          class="text-sm text-right break-words border-white border-0 w-full h-full"
+          class="syncdata text-sm text-right break-words border-white border-0 w-full h-full"
+          id="from_Address"
         >
         東京都○○区○○1-2-3
         ○○　○○
@@ -196,35 +200,93 @@
       <p class="text-right">以上</p>
     </section>
     <script type="text/javascript">
-      (() => {
-        document.querySelector("p#today").innerHTML = today();
+      function saveValue(selector, key) {
+        if (localStorage.getItem(key)) {
+          document.querySelector(selector).value = localStorage.getItem(key)
+        } else {
+          document
+            .querySelector(selector)
+            .addEventListener("change", function () {
+              localStorage.setItem(key, this.value)
+              saveValue(selector, key)
+            })
+        }
+      }
+      function saveTextarea(selector, key) {
+        if (localStorage.getItem(key)) {
+          document.querySelector(selector).innerHTML = localStorage.getItem(key)
+        } else {
+          document
+            .querySelector(selector)
+            .addEventListener("change", function () {
+              localStorage.setItem(key, this.innerHTML)
+              saveTextarea(selector, key)
+            })
+        }
+      }
+      ;(() => {
+        document.querySelector("p#today").innerHTML = today()
+        /*         saveValue("input#to_Name", "biz-format_to_Name");
+        saveTextarea("textarea#to_Address", "biz-format_to_Address");
+        saveValue("input#from_Name", "biz-format_from_Name");
+        saveTextarea("textarea#from_Address", "biz-format_from_Address"); */
+        let jsonObj = localStorage.getItem("biz-format")
+        let jsObj = jsonObj ? JSON.parse(jsonObj) : {}
+        Array.from(document.querySelectorAll(".syncdata")).forEach(function (
+          syncdata
+        ) {
+          if (jsObj[syncdata.id]) {
+            switch (syncdata.tagName) {
+              case "INPUT":
+              case "TEXTAREA":
+                syncdata.value = jsObj[syncdata.id]
+                break
+              default:
+                console.log(ele.tagName)
+            }
+          }
+          syncdata.addEventListener("change", e => {
+            let ele = e.currentTarget
+            switch (ele.tagName) {
+              case "INPUT":
+              case "TEXTAREA":
+                jsObj[ele.id] = ele.value
+                let obj = JSON.stringify(jsObj)
+                localStorage.setItem("biz-format", obj)
+                break
+              default:
+                console.log(ele.tagName)
+            }
+          })
+          console.log(syncdata)
+        })
         // ==============================================
         //	フォーカス時の背景色リセット
         // ==============================================
         // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
-        let s = document.querySelectorAll("textarea");
-        let arr = Array.from(s);
-        let item = [];
-        arr.forEach(function (item) {
-          item.addEventListener("blur", (e) => {
-            let ele = e.currentTarget;
-            ele.innerHTML = ele.innerHTML.trim();
-            ele.style.height = "10px";
-            let wSclollHeight = parseInt(ele.scrollHeight);
+        let item = []
+        Array.from(document.querySelectorAll("textarea")).forEach(function (
+          item
+        ) {
+          item.addEventListener("blur", e => {
+            let ele = e.currentTarget
+            ele.innerHTML = ele.innerHTML.trim()
+            ele.style.height = "10px"
+            let wSclollHeight = parseInt(ele.scrollHeight)
             // 1行の長さを取得する
-            let wLineH = parseInt(ele.style.lineHeight.replace(/px/, ""));
+            let wLineH = parseInt(ele.style.lineHeight.replace(/px/, ""))
             // 最低2行の表示エリアにする
             if (wSclollHeight < wLineH * 2) {
-              wSclollHeight = wLineH * 2;
+              wSclollHeight = wLineH * 2
             }
             // テキストエリアの高さを設定する
-            ele.style.height = wSclollHeight + "px";
-          });
-          console.log(item);
-          item.focus();
-          item.blur();
-        });
-      })();
+            ele.style.height = wSclollHeight + "px"
+          })
+          console.log(item)
+          item.focus()
+          item.blur()
+        })
+      })()
     </script>
   </body>
 </html>
